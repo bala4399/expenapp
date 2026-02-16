@@ -7,5 +7,5 @@ COPY .env .
 RUN pip install -r requirements.txt
 
 COPY . .
-RUN apt update -y && apt install aws
+RUN apt update -y && apt install awscli -y
 CMD ["python", "app.py"]
