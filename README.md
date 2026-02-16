@@ -1,4 +1,4 @@
-# Expense Tracker - Technical Interview Sample App
+# Expense Tracker -  Sample App
 
 ## Quick Start
 
