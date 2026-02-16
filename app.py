@@ -8,8 +8,8 @@ import os
 from flask_wtf.csrf import CSRFProtect
   
 app = Flask(__name__)
-if not os.getenv("SECRET_KEY"):
-    raise RuntimeError("SECRET_KEY not set")
+# if not os.getenv("SECRET_KEY"):
+#     raise RuntimeError("SECRET_KEY not set")
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", "dev_only_key")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///expenses.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
