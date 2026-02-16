@@ -6,7 +6,7 @@ from datetime import date, datetime
 from functools import wraps
 import os
 from flask_wtf.csrf import CSRFProtect
-
+  
 app = Flask(__name__)
 if not os.getenv("SECRET_KEY"):
     raise RuntimeError("SECRET_KEY not set")
