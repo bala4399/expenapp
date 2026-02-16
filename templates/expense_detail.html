@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Expense Details{% endblock %}
+
+{% block content %}
+<h1>Expense Details</h1>
+<a href="{{ url_for('dashboard') }}" class="btn">← Back to Dashboard</a>
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+    <table style="border: none; width: 100%;">
+        <tr><td style="border: none; width: 150px;"><strong>Description:</strong></td><td style="border: none;">{{ expense.description }}</td></tr>
+        <tr><td style="border: none;"><strong>Amount:</strong></td><td style="border: none;">${{ "%.2f"|format(expense.amount_original) }} {{ expense.currency_original }}</td></tr>
+        <tr><td style="border: none;"><strong>Converted Amount (USD):</strong></td><td style="border: none;">${{ "%.2f"|format(expense.amount_usd) }}</td></tr>
+        <tr><td style="border: none;"><strong>Category:</strong></td><td style="border: none;">{{ category.name if category else 'Unknown' }}</td></tr>
+        <tr><td style="border: none;"><strong>Date:</strong></td><td style="border: none;">{{ expense.expense_date.strftime('%Y-%m-%d') }}</td></tr>
+        <tr><td style="border: none;"><strong>Status:</strong></td><td style="border: none;"><span class="status-{{ expense.status }}">{{ expense.status.title() }}</span></td></tr>
+        <tr><td style="border: none;"><strong>Submitted by:</strong></td><td style="border: none;">{{ user.username if user else 'Unknown' }}</td></tr>
+        <tr><td style="border: none;"><strong>Submitted:</strong></td><td style="border: none;">{{ expense.created_at.strftime('%Y-%m-%d %H:%M') if expense.created_at else 'Unknown' }}</td></tr>
+        {% if expense.approved_by %}
+        <tr><td style="border: none;"><strong>Approval:</strong></td><td style="border: none;">{{ expense.approval_date.strftime('%Y-%m-%d %H:%M') if expense.approval_date else 'N/A' }}</td></tr>
+        {% endif %}
+    </table>
+</div>
+
+{% if session.role == 'admin' and expense.status == 'pending' %}
+<div style="margin: 20px 0; padding: 15px; background: #fff3cd; border-radius: 5px;">
+    <h4>Admin Actions:</h4>
+    <a href="{{ url_for('approve_expense', expense_id=expense.id) }}" 
+       class="btn success"
+       onclick="return confirm('Approve this expense?')">Approve Expense</a>
+    <a href="{{ url_for('deny_expense', expense_id=expense.id) }}" 
+       class="btn danger"
+       onclick="return confirm('Deny this expense?')">Deny Expense</a>
+</div>
+{% endif %}
+{% endblock %}
